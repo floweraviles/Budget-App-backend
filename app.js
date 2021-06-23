@@ -1,13 +1,26 @@
 const express = require("express");
+const transactionsController = require("./controllers/transactionsController");
 const cors = require('cors');
 
 const app = express();
+
 app.use(express.json());
-app.use(cors());
+app.use(cors())
+
+
+app.use((req,res, next) => {
+  next();
+})
+app.use("/transactions", transactionsController);
+
 
 // ROOT
 app.get("/", (req, res) => {
-  res.send("Basic Express App - ROOT");
+  res.send("Budget App");
 });
+
+app.get("*", (req, res) => {
+  res.status(404).send("Page not found!")
+})
 
 module.exports = app;
